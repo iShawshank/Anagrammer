@@ -1,22 +1,22 @@
 package Anagrammer;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
+@RestController
 public class WordController {
+    private ArrayList<Word> wordList = new ArrayList<Word>();
 
 
     @RequestMapping(value = "/words.json", method = RequestMethod.POST)
-    public void AddWords(@RequestParam(value = "words") ArrayList<Word> words) {
+    public String AddWords() {
 
         // TODO Add in logic for Adding words.
     }
 
     @RequestMapping(value = "/anagrams/:word.json", method = RequestMethod.GET)
-    public void FetchWords() {
+    public void FetchWords(@RequestParam(value = "limit", required=false) Integer limit) {
 
         // TODO Add in logic for fetching and returning words.
     }
