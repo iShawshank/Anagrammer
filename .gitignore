@@ -1,2 +1,5 @@
 #ignore
 /.idea/*
+.classpath
+.project
+/.settings/
