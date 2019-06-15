@@ -1,14 +1,13 @@
 package Anagrammer;
 
 
-
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.*;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLDecoder;
 import java.util.*;
 
 
@@ -20,17 +19,30 @@ public class WordController {
 
 
 
-    @RequestMapping(value = "/words.json", method = RequestMethod.POST,
-                    consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void addWords(HttpServletRequest request) {
+    @RequestMapping(value = "/words.json",
+                    method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity addWords(HttpServletRequest request, @RequestBody String jsonString) {
 
         ArrayList<String> newWords = new ArrayList<String>();
-        Map<String,String[]> map = request.getParameterMap();
+        int addWordCount = 0;
 
-        for (String key : map.keySet()) {
-            newWords = jsonToArrayList(key);
+        /*
+        * When making a normal curl request through console the jsonString is encoded and has
+        * an extra '=' at the very end. In this weird case, I decode the JSON string and remove
+        * the extra character from the string so it can be parsed correctly.
+        */
+        if (jsonString.substring(jsonString.length()-1).equals("=")) {
+            try {
+                jsonString = URLDecoder.decode(jsonString, "UTF-8");
+            } catch (Exception ex) {
+                System.out.println("Error: " + ex.getMessage());
+            }
+
+            jsonString = jsonString.replace(jsonString.substring(jsonString.length()-1), "");
         }
+
+        newWords = jsonToArrayList(jsonString);
 
         // Loop through newWords to determine which to add to the data store
         for (String word : newWords) {
@@ -41,6 +53,7 @@ public class WordController {
                 // If the word is in the english language dictionary add it to the data store
                 if (dictionary.getDictionaryList().contains(word)){
                     anagramWordList.add(new AnagramWord(word));
+                    addWordCount++;
                 } else {
                     System.out.println(
                             String.format("Unable to add %s to data store as it's not an english language word.",
@@ -53,10 +66,13 @@ public class WordController {
 
         Collections.sort(anagramWordList);
 
-
-        System.out.println("data store Size: " + anagramWordList.size());
-        System.out.println("data store:");
-        System.out.println(anagramWordList);
+        if (addWordCount > 0) {
+            System.out.println("added words.");
+            return new ResponseEntity(HttpStatus.CREATED);
+        } else {
+            System.out.println("no words added.");
+            return new ResponseEntity(HttpStatus.NOT_MODIFIED);
+        }
     }
 
     @RequestMapping(value = "/anagrams/{word}.json", method = RequestMethod.GET)
@@ -69,11 +85,6 @@ public class WordController {
         }
 
         String anagramList = formatJsonArray(getAllAnagrams(new AnagramWord(word), limit));
-
-        System.out.println("data store Size: " + anagramWordList.size());
-        System.out.println("data store:");
-        System.out.println(anagramWordList);
-        System.out.println("anagramList " + anagramList);
 
         return anagramList;
     }
@@ -88,11 +99,6 @@ public class WordController {
                 break;
             }
         }
-
-        System.out.println("data store Size: " + anagramWordList.size());
-        System.out.println("data store:");
-        System.out.println(anagramWordList);
-
     }
 
     @RequestMapping(value = "/words.json", method = RequestMethod.DELETE)
@@ -100,9 +106,6 @@ public class WordController {
 
         // Delete all words from data store
         anagramWordList.clear();
-        System.out.println("data store Size: " + anagramWordList.size());
-        System.out.println("data store:");
-        System.out.println(anagramWordList);
     }
 
     /*
@@ -165,7 +168,7 @@ public class WordController {
     /**/
     private String formatJsonArray (ArrayList<String> list) {
 
-        Gson gsonBuilder = new GsonBuilder().setPrettyPrinting().create();
+        Gson gsonBuilder = new GsonBuilder().setLenient().setPrettyPrinting().create();
         String jsonMapString = "";
         Map jsonMap = new HashMap();
 
