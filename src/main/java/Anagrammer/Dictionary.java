@@ -23,7 +23,7 @@ public class Dictionary {
 
     public void load() {
         try {
-            Scanner scanner = new Scanner(new File("dictionary.txt"));
+            Scanner scanner = new Scanner(new File("resources/dictionary.txt"));
 
             while (scanner.hasNext()) {
                 // Add new anagramWord to dictionary

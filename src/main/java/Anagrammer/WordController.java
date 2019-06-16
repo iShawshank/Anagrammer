@@ -90,7 +90,7 @@ public class WordController {
     }
 
     @RequestMapping(value = "/words/{word}.json", method = RequestMethod.DELETE)
-    public void deleteSingleword (@PathVariable String word) {
+    public ResponseEntity deleteSingleword (@PathVariable String word) {
 
         System.out.println(String.format("Removing '%s' from data store.", word));
         for (int i = 0; i < anagramWordList.size(); i++){
@@ -99,13 +99,16 @@ public class WordController {
                 break;
             }
         }
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/words.json", method = RequestMethod.DELETE)
-    public void deleteAllWords () {
+    public ResponseEntity deleteAllWords () {
 
         // Delete all words from data store
         anagramWordList.clear();
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     /*
