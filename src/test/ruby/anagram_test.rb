@@ -118,4 +118,31 @@ class TestCases < Test::Unit::TestCase
 
     assert_equal(['dare'], body['anagrams'])
   end
+
+  def test_data_store_stats
+
+    res = @client.post('/words.json', nil, {"words" => ["yeanling", "yearbird", "yearbook"] })
+    assert_equal('201', res.code, "Unexpected response code")
+
+    res = @client.get('/stats/stats.json')
+
+    assert_equal('200', res.code, "Unexpected response code")
+    assert_not_nil(res.body)
+
+    body = JSON.parse(res.body)
+
+    #assert_not_nil(body['anagrams'])
+    assert_not_nil(body['wordCount'])
+
+    expected_word_count = 6
+    expected_median = 6.0
+    expected_min = 4
+    expected_max = 8
+
+    assert_equal(expected_word_count, body['wordCount'])
+    assert_equal(expected_median, body['median'])
+    assert_equal(expected_min, body['min'])
+    assert_equal(expected_max, body['max'])
+
+  end
 end

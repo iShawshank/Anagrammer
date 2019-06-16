@@ -75,8 +75,8 @@ public class WordController {
         }
     }
 
-    @RequestMapping(value = "/anagrams/{word}.json", method = RequestMethod.GET)
-    public String getanagrams(@PathVariable String word, @RequestParam(value = "limit", required=false) Integer limit) {
+    @RequestMapping(value = "/anagrams/{word}.json")
+    public String getAnagrams(@PathVariable String word, @RequestParam(value = "limit", required=false) Integer limit) {
 
         System.out.println("Fetching anagrams for: " + word);
 
@@ -90,7 +90,7 @@ public class WordController {
     }
 
     @RequestMapping(value = "/words/{word}.json", method = RequestMethod.DELETE)
-    public ResponseEntity deleteSingleword (@PathVariable String word) {
+    public ResponseEntity deleteSingleWord (@PathVariable String word) {
 
         System.out.println(String.format("Removing '%s' from data store.", word));
         for (int i = 0; i < anagramWordList.size(); i++){
@@ -109,6 +109,40 @@ public class WordController {
         // Delete all words from data store
         anagramWordList.clear();
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    /**/
+    @RequestMapping(value = "/stats/stats.json")
+    public String getDataStoreStats() {
+
+        String statsJsonString = "";
+        DataStoreStats stats = new DataStoreStats();
+
+        // Set total word count in data store.
+        stats.setWordCount(anagramWordList.size());
+
+        // Calculate Max letter count
+        AnagramWord max = Collections
+                            .max(anagramWordList, Comparator.comparing(s -> s.getLetterCount()));
+        stats.setMax(max.getLetterCount());
+
+        // Calculate Min letter count
+        AnagramWord min = Collections
+                            .min(anagramWordList, Comparator.comparing(s -> s.getLetterCount()));
+        stats.setMin(min.getLetterCount());
+
+        // Calculate Median letter count
+        Double median = anagramWordList.stream()
+                                        .mapToInt(s -> s.getLetterCount())
+                                        .average()
+                                        .orElse(0);
+        stats.setMedian(median);
+
+        Gson gsonBuilder = new GsonBuilder().setPrettyPrinting().create();
+        statsJsonString = gsonBuilder.toJson(stats);
+
+        System.out.println("statsJsonString: " + statsJsonString);
+        return statsJsonString;
     }
 
     /*
@@ -183,7 +217,9 @@ public class WordController {
         return jsonMapString;
     }
 
-    /**/
+    /*
+    *
+    */
     private ArrayList<String> jsonToArrayList (String jsonString) {
 
         JsonElement jElement = new JsonParser().parse(jsonString);
@@ -196,6 +232,9 @@ public class WordController {
         return newArrayList;
     }
 
+    /*
+    *
+    */
     private boolean wordIsInDataStore (String wordString ) {
 
         for (AnagramWord word : anagramWordList) {
