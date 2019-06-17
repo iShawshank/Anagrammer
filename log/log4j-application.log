@@ -1,0 +1,96 @@
+2019-06-17 17:43:55 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-17 17:44:03 DEBUG Dictionary:15 - Loading Dictionary...
+2019-06-17 17:44:03 DEBUG Dictionary:17 - Sorting Dictionary...
+2019-06-17 17:44:03 DEBUG Dictionary:19 - Dictionary loaded and ready.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:76 - read already exists in data store... ignoring...
+2019-06-17 17:44:21 DEBUG WordController:76 - dear already exists in data store... ignoring...
+2019-06-17 17:44:21 DEBUG WordController:76 - dare already exists in data store... ignoring...
+2019-06-17 17:44:21 DEBUG WordController:86 - no words added to data store.
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:201 - Data store stats json: {
+  "wordCount": 6,
+  "median": 6.0,
+  "min": 4,
+  "max": 8
+}
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:101 - Fetching anagrams for: read
+2019-06-17 17:44:21 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": []
+}
+2019-06-17 17:44:21 DEBUG WordController:101 - Fetching anagrams for: ready
+2019-06-17 17:44:21 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "deary",
+    "yeard"
+  ]
+}
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:101 - Fetching anagrams for: read
+2019-06-17 17:44:21 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": []
+}
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:101 - Fetching anagrams for: read
+2019-06-17 17:44:21 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": []
+}
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:120 - Removing 'dear' from data store.
+2019-06-17 17:44:21 DEBUG WordController:101 - Fetching anagrams for: read
+2019-06-17 17:44:21 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare"
+  ]
+}
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:120 - Removing 'kevin' from data store.
+2019-06-17 17:44:21 DEBUG WordController:101 - Fetching anagrams for: kevin
+2019-06-17 17:44:21 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": []
+}
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:101 - Fetching anagrams for: zyxwv
+2019-06-17 17:44:21 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": []
+}
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:101 - Fetching anagrams for: read
+2019-06-17 17:44:21 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.
+2019-06-17 17:44:21 DEBUG WordController:83 - Added 3 words to data store.
+2019-06-17 17:44:21 DEBUG WordController:101 - Fetching anagrams for: read
+2019-06-17 17:44:21 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare"
+  ]
+}
+2019-06-17 17:44:21 DEBUG WordController:137 - Deleted all words from the data store.

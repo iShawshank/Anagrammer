@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 import static Anagrammer.AnagramConstants.LIMIT_NOT_USED;
 
 public class AnagramUtils {
 
+    Logger logger = Logger.getLogger(AnagramUtils.class);
 
     /*******************************************************************************
      * Method that calculates a list of all anagrams of a original word.
@@ -85,7 +87,7 @@ public class AnagramUtils {
         jsonMap.put("anagrams", list);
         jsonMapString = gsonBuilder.toJson(jsonMap);
 
-        System.out.println(jsonMapString);
+        logger.debug("JSON array string: " + jsonMapString);
 
         return jsonMapString;
     }

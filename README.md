@@ -62,7 +62,7 @@ HTTP/1.1 204 No Content
 $ curl -i http://localhost:3000/stats/stats.json
 HTTP/1.1 200 OK
 ...
-statsJsonString: {
+{
   "wordCount": 6,
   "median": 6.0,
   "min": 4,

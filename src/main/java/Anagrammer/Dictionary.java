@@ -4,17 +4,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import org.apache.log4j.Logger;
 
 public class Dictionary {
 
     private final ArrayList<String> dictionaryList = new ArrayList<String>();
+    final static Logger logger = Logger.getLogger(Dictionary.class);
 
     public Dictionary() {
-        System.out.println("Loading Dictionary...");
+        logger.debug("Loading Dictionary...");
         load();
-        System.out.println("Sorting Dictionary...");
+        logger.debug("Sorting Dictionary...");
         sort();
-        System.out.println("Dictionary loaded and ready.");
+        logger.debug("Dictionary loaded and ready.");
     }
 
     public ArrayList<String> getDictionaryList() {
@@ -30,7 +32,7 @@ public class Dictionary {
                 this.dictionaryList.add(scanner.next());
             }
         } catch (Exception ex) {
-            System.out.println("Error in loading dictionary: " + ex.getMessage());
+            logger.error("Error in loading dictionary: " + ex.getMessage());
         }
     }
 

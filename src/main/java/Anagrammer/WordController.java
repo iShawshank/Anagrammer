@@ -2,6 +2,7 @@ package Anagrammer;
 
 
 import com.google.gson.*;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ public class WordController {
     private ArrayList<AnagramWord> anagramWordList = new ArrayList<AnagramWord>();
     private Dictionary dictionary = new Dictionary();
     private AnagramUtils utils = new AnagramUtils();
+    final static Logger logger = Logger.getLogger(WordController.class);
+
+
 
 
     /*******************************************************************************
@@ -44,7 +48,7 @@ public class WordController {
             try {
                 jsonString = URLDecoder.decode(jsonString, "UTF-8");
             } catch (Exception ex) {
-                System.out.println("Error: " + ex.getMessage());
+                logger.error("Error: " + ex.getMessage());
             }
 
             jsonString = jsonString.replace(jsonString.substring(jsonString.length()-1), "");
@@ -63,22 +67,22 @@ public class WordController {
                     anagramWordList.add(new AnagramWord(word));
                     addWordCount++;
                 } else {
-                    System.out.println(
+                    logger.debug(
                             String.format("Unable to add %s to data store as it's not an english language word.",
                                     word));
                 }
             } else {
-                System.out.println(word + " already exists in data store... ignoring...");
+                logger.debug(word + " already exists in data store... ignoring...");
             }
         }
 
         Collections.sort(anagramWordList);
 
         if (addWordCount > 0) {
-            System.out.println("added words.");
+            logger.debug(String.format("Added %s words to data store.", addWordCount));
             return new ResponseEntity(HttpStatus.CREATED);
         } else {
-            System.out.println("no words added.");
+            logger.debug("no words added to data store.");
             return new ResponseEntity(HttpStatus.NOT_MODIFIED);
         }
     }
@@ -93,7 +97,7 @@ public class WordController {
     @RequestMapping(value = "/anagrams/{word}.json")
     public String getAnagrams(@PathVariable String word, @RequestParam(value = "limit", required=false) Integer limit) {
 
-        System.out.println("Fetching anagrams for: " + word);
+        logger.debug("Fetching anagrams for: " + word);
 
         if (limit == null){
             limit = LIMIT_NOT_USED;
@@ -112,7 +116,7 @@ public class WordController {
     @RequestMapping(value = "/words/{word}.json", method = RequestMethod.DELETE)
     public ResponseEntity deleteSingleWord (@PathVariable String word) {
 
-        System.out.println(String.format("Removing '%s' from data store.", word));
+        logger.debug(String.format("Removing '%s' from data store.", word));
 
         anagramWordList = utils.removeWordFromDataStore(word, anagramWordList);
 
@@ -128,6 +132,9 @@ public class WordController {
 
         // Delete all words from data store
         anagramWordList.clear();
+
+        logger.debug("Deleted all words from the data store.");
+
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
@@ -190,7 +197,7 @@ public class WordController {
         Gson gsonBuilder = new GsonBuilder().setPrettyPrinting().create();
         statsJsonString = gsonBuilder.toJson(stats);
 
-        System.out.println("statsJsonString: " + statsJsonString);
+        logger.debug("Data store stats json: " + statsJsonString);
         return statsJsonString;
     }
 }
