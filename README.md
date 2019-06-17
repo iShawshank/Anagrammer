@@ -14,8 +14,8 @@ API Options:
 - `DELETE /words/delete/:word.json`: Deletes a single word and all anagrams associated with that word.
 
 
-## Documentation
-#### API Consumption Details:
+
+## API Consumption Details:
 
 Interact with the API over HTTP, and all data sent and received is expected to be in JSON format
 
@@ -75,7 +75,7 @@ HTTP/1.1 204 No Content
 ...
 ```
 
-#### Running Anagrammer Locally
+## Running Anagrammer Locally
 First step is to clone / fork this repo.
 
 You have 2 options for running the application locally.
@@ -103,7 +103,7 @@ To open the Maven Tools window:
 2. Inside the Maven Tool Window select `Annagrammer -> LifeCycle -> package` and click Run Maven Build to build the applcation and JAR.
 
 
-#### Test Suites:
+## Test Suites:
 There is 2 different test suites that have been implemented. 
 
 1). Public Endpoint test suite:
@@ -128,7 +128,7 @@ To run the tests in IntelliJ.
 2. Inside the Maven Tool Window select `Annagrammer -> Lifecycle -> test` and click Run Maven Build 
 
 
-#### Design Overview:
+## Design Overview:
 TOOLS: 
 
 I chose to use Spring and Maven for this project as Maven makes it easy to manage dependencies and
@@ -166,7 +166,7 @@ another helper method from being created.
 The last class I created was an AnagramConstants class to allow a single storage for Application contstants. 
 
 
-#### Future features:
+## Future features:
 
 The following is a list of potential features that could be valueable:
 - Respect a query param for whether or not to include proper nouns in the list of anagrams
