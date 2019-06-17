@@ -185,7 +185,29 @@ public class AnagramUtilsTest {
 
         // Data store and expectedDataStore are equal
         assertTrue(anagramWordList.equals(expectedDataStore));
+    }
 
+    @Test
+    public void removeWordFromDataStoreTestWordDoesNotExist() {
+        String wordToDelete = "readyz";
+        ArrayList<AnagramWord> expectedDataStore = new ArrayList<AnagramWord>();
 
+        // load expectedDataStore
+        expectedDataStore.add(new AnagramWord("ready"));
+        expectedDataStore.add(new AnagramWord("deary"));
+        expectedDataStore.add(new AnagramWord("yeard"));
+        expectedDataStore.add(new AnagramWord("read"));
+
+        // Before we delete ready, there should be 4 AnagramWords in the data store
+        assertTrue(anagramWordList.size() == 4);
+
+        // Attempt to Delete "readyz" in from data store.
+        anagramWordList = utils.removeWordFromDataStore(wordToDelete, anagramWordList);
+
+        // Should have 3 AnagramWords in the data store now.
+        assertTrue(anagramWordList.size() == 4);
+
+        // Data store and expectedDataStore are equal
+        assertTrue(anagramWordList.equals(expectedDataStore));
     }
 }
