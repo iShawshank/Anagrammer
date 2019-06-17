@@ -1,18 +1,8 @@
 # Anagrammer
 
-A simple Java REST API for anagrams
+A simple Java REST API that allows fast searches for [anagrams](https://en.wikipedia.org/wiki/Anagram).
 
-Ibotta Dev Project
-=========
-
-
-# The Project
-
----
-
-The project is to build an API that allows fast searches for [anagrams](https://en.wikipedia.org/wiki/Anagram). `dictionary.txt` is a text file containing every word in the English dictionary. Ingesting the file doesn’t need to be fast, and you can store as much data in memory as you like.
-
-The API you design should respond on the following endpoints as specified.
+API Options:
 
 - `POST /words.json`: Takes a JSON array of English-language words and adds them to the corpus (data store).
 - `GET /anagrams/:word.json`:
@@ -20,19 +10,16 @@ The API you design should respond on the following endpoints as specified.
   - This endpoint should support an optional query param that indicates the maximum number of results to return.
 - `DELETE /words/:word.json`: Deletes a single word from the data store.
 - `DELETE /words.json`: Deletes all contents of the data store.
+- `GET /stats/stats.json`: Returns a count of words in the corpus and min/max/median/average word length
+- `DELETE /words/delete/:word.json`: Deletes a single word and all anagrams associated with that word.
 
 
-**Optional**
-- Endpoint that returns a count of words in the corpus and min/max/median/average word length
-- Respect a query param for whether or not to include proper nouns in the list of anagrams
-- Endpoint that identifies words with the most anagrams
-- Endpoint that takes a set of words and returns whether or not they are all anagrams of each other
-- Endpoint to return all anagram groups of size >= *x*
-- Endpoint to delete a word *and all of its anagrams*
+## Documentation
+#### API Consumption Details:
 
-Clients will interact with the API over HTTP, and all data sent and received is expected to be in JSON format
+Interact with the API over HTTP, and all data sent and received is expected to be in JSON format
 
-Example (assuming the API is being served on localhost port 3000):
+Example (Application currently serves over localhost port 3000):
 
 ```{bash}
 # Adding words to the corpus
@@ -45,7 +32,7 @@ $ curl -i http://localhost:3000/anagrams/read.json
 HTTP/1.1 200 OK
 ...
 {
-  anagrams: [
+  "anagrams": [
     "dear",
     "dare"
   ]
@@ -56,7 +43,7 @@ $ curl -i http://localhost:3000/anagrams/read.json?limit=1
 HTTP/1.1 200 OK
 ...
 {
-  anagrams: [
+  "anagrams": [
     "dare"
   ]
 }
@@ -70,57 +57,121 @@ HTTP/1.1 204 No Content
 $ curl -i -X DELETE http://localhost:3000/words.json
 HTTP/1.1 204 No Content
 ...
+
+# Get Data Store Stats
+$ curl -i http://localhost:3000/stats/stats.json
+HTTP/1.1 200 OK
+...
+statsJsonString: {
+  "wordCount": 6,
+  "median": 6.0,
+  "min": 4,
+  "max": 8
+}
+
+# Delete a word and all of it's anagrams 
+$ curl -i -X DELETE http://localhost:3000/words/delete/read.json
+HTTP/1.1 204 No Content
+...
 ```
 
-Note that a word is not considered to be its own anagram.
+#### Running Anagrammer Locally
+First step is to clone / fork this repo.
+
+You have 2 options for running the application locally.
+1). First option is to just run the provided jar:
+ OSX Example:
+ - cd into the root of Anagrammer
+ - run the following command `java -jar target/Anagrammer-1.0-1-task.jar`
+ 
+2). Second Option is using an IDE (I recommend IntelliJ IDEA)
+
+Setup Instructions for IntelliJ IDEA:
+- Import "New Project" into Intellij and select Anagrammer from the location you chose to clone this repo.
+- Select "Create Project from existing sources" and click "next".
+- Select "Import project from external model", select "Maven" from the list, and select "next.
+- Make sure that "Import Maven projects automatically" is selected and select "next".
+- Make sure that "Shaw.Kevin.Anagrammer:1.0-1" is selected and select "next".
+- Select your JDK version and select "next".
+- Update the project name / location if you wish and select "Finish".
+- You should be able to build and run the application now.
+
+We recommend that you open the Maven Tools Window to build the application so it will update the .jar file automatically.
+
+To open the Maven Tools window:
+1. Open a Maven Tool Window by navigating to `View -> Tool Windows -> Maven`. 
+2. Inside the Maven Tool Window select `Annagrammer -> LifeCycle -> package` and click Run Maven Build to build the applcation and JAR.
 
 
-## Tests
+#### Test Suites:
+There is 2 different test suites that have been implemented. 
 
-We have provided a suite of tests to help as you develop the API. To run the tests you must have Ruby installed ([docs](https://www.ruby-lang.org/en/documentation/installation/)):
+1). Public Endpoint test suite:
+- Uses Ruby Test Unit to test the public endpoints.
+- Found in /src/test/ruby/
+- Must have Ruby installed ([docs](https://www.ruby-lang.org/en/documentation/installation/)):
+- Uses the anagram_client.rb file in the same location.
+- In order for these tests to be run the application must be running. 
 
+To run the tests cd into `Anagrammer/src/test/ruby/`
 ```{bash}
 ruby anagram_test.rb
 ```
 
-Only the first test will be executed, all the others have been made pending using the `pend` method. Delete or comment out the next `pend` as you get each test passing.
+2). Internal unit test suite:
+- Uses Java JUnit to test internal AnagramUtils Class methods.
+- Found in /src/test/java/
+- Must have Java 8 JDK and JUnit installed
 
-If you are running your server somewhere other than localhost port 3000, you can configure the test runner with configuration options described by
-
-```{bash}
-ruby anagram_test.rb -h
-```
-
-You are welcome to add additional test cases if that helps with your development process. The [benchmark-bigo](https://github.com/davy/benchmark-bigo) gem is helpful if you wish to do performance testing on your implementation.
-
-## API Client
-
-We have provided an API client in `anagram_client.rb`. This is used in the test suite, and can also be used in development.
-
-To run the client in the Ruby console, use `irb`:
-
-```{ruby}
-$ irb
-> require_relative 'anagram_client'
-> client = AnagramClient.new
-> client.post('/words.json', nil, { 'words' => ['read', 'dear', 'dare']})
-> client.get('/anagrams/read.json')
-```
-
-## Documentation
-
-Optionally, you can provide documentation that is useful to consumers and/or maintainers of the API.
-
-Suggestions for documentation topics include:
-
-- Features you think would be useful to add to the API
-- Implementation details (which data store you used, etc.)
-- Limits on the length of words that can be stored or limits on the number of results that will be returned
-- Any edge cases you find while working on the project
-- Design overview and trade-offs you considered
+To run the tests in IntelliJ. 
+1. Open a Maven Tool Window by navigating to `View -> Tool Windows -> Maven`. 
+2. Inside the Maven Tool Window select `Annagrammer -> Lifecycle -> test` and click Run Maven Build 
 
 
-# Deliverable
----
+#### Design Overview:
+TOOLS: 
 
-Please provide the code for the assignment either in a private repository (GitHub or Bitbucket) or as a zip file. If you have a deliverable that is deployed on the web please provide a link, otherwise give us instructions for running it locally.
+I chose to use Spring and Maven for this project as Maven makes it easy to manage dependencies and
+Spring makes it easy to implement a REST API. 
+
+ENGLISH WORD DICTIONARY:
+
+Design: I chose to implement the dictionary as a class so that I could load and sort it on Application start. Spring 
+auto loads the WordController on application start. WordController instantiates the Dictionary class. I added
+the Load() and Store() methods to the constructor which enables this loading and sorting to happen.
+Load: When the application first starts, the dictionary.txt file is loaded into an ArrayList and then sorted. 
+I chose this implementation as it only has to happens on the start of the application and will persist
+throughout the life of the application and the dictionary is only used when adding words to the data store. 
+
+REST API DESIGN:
+
+All public facing endpoints enter through a single controller found at `/src/main/java/Anagrammer/WordController.java`
+There are numerous methods that assist the controller and those are all found in a helper class found at 
+`/src/main/java/Anagrammer/AnagramUtils.java` I chose to add these helper methods to prevent duplicate code and I chose
+to separate these methods from the controller to make it easier to read and to separate the implementation from the 
+controller. This also allowed me to add unit tests to the helper methods which added a second layer of tests to the
+application.
+
+ENTITIES:
+ 
+I chose to make an AnagramWord class to allow additional functionality to be added after MVP. I could've just used
+Strings but wanted the ability to add additional features to the application in the future without a major refactor. An
+example of this would be the check for Proper Nouns. I can add a property of isProperNoun to the AnagramWord and add a 
+helper method to determine if an AnagramWord is a proper noun. This can be stored in the object instead of having to 
+determine it every time you need to know if a word is a proper noun. 
+
+I also chose to make a DataStoreStats class so to make it easier to send it as a JSON object when called. This prevented
+another helper method from being created. 
+
+The last class I created was an AnagramConstants class to allow a single storage for Application contstants. 
+
+
+#### Future features:
+
+The following is a list of potential features that could be valueable:
+- Respect a query param for whether or not to include proper nouns in the list of anagrams
+- Endpoint that identifies words with the most anagrams
+- Endpoint that takes a set of words and returns whether or not they are all anagrams of each other
+- Endpoint to return all anagram groups of size >= *x*
+- Enpoint that returns all words in the data store currently.
+
