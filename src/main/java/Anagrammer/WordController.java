@@ -18,11 +18,18 @@ public class WordController {
     private static final Integer LIMIT_NOT_USED = -1;
 
 
-
+    /*******************************************************************************
+     * Endpoint that accepts a JSON array string and attempts to add all containing
+     * words to the data store.
+     * Input:
+     *      jsonString - JSON String containing all words to add to the data store.
+     * Output: Returns HTTP Status 201 if any words were added to the data store,
+     * otherwise returns a HTTP Status 304.
+     ********************************************************************************/
     @RequestMapping(value = "/words.json",
                     method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity addWords(HttpServletRequest request, @RequestBody String jsonString) {
+    public ResponseEntity addWords(@RequestBody String jsonString) {
 
         ArrayList<String> newWords = new ArrayList<String>();
         int addWordCount = 0;
@@ -75,6 +82,14 @@ public class WordController {
         }
     }
 
+    /*******************************************************************************
+     * Endpoint that receives a word and returns all anagrams of the original word
+     * that reside in the data store.
+     * Input:
+     *      word - String value that specifies which word to find anagrams of.
+     *      limit - Integer value of maximum number of anagrams to search for.
+     * Output: anagramList - JSON String containing anagrams of original word.
+     ********************************************************************************/
     @RequestMapping(value = "/anagrams/{word}.json")
     public String getAnagrams(@PathVariable String word, @RequestParam(value = "limit", required=false) Integer limit) {
 
@@ -89,20 +104,26 @@ public class WordController {
         return anagramList;
     }
 
+    /*******************************************************************************
+     * Endpoint that delete's a single word from the data store.
+     * Input:
+     *      word - String value of the word to delete.
+     * Output: Returns HTTP Status 204
+     ********************************************************************************/
     @RequestMapping(value = "/words/{word}.json", method = RequestMethod.DELETE)
     public ResponseEntity deleteSingleWord (@PathVariable String word) {
 
         System.out.println(String.format("Removing '%s' from data store.", word));
-        for (int i = 0; i < anagramWordList.size(); i++){
-            if (anagramWordList.get(i).getWord().equals(word)) {
-                anagramWordList.remove(i);
-                break;
-            }
-        }
+
+        removeWordFromDataStore(word);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    /*******************************************************************************
+     * Endpoint that delete's all words from the data store.
+     * Output: Returns HTTP Status 204
+     ********************************************************************************/
     @RequestMapping(value = "/words.json", method = RequestMethod.DELETE)
     public ResponseEntity deleteAllWords () {
 
@@ -111,7 +132,37 @@ public class WordController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    /**/
+    /*******************************************************************************
+    * Endpoint that delete's a word and all of it's anagrams from the data store.
+    * Input:
+     *      originalWord - String value of the original word.
+    * Output: Returns HTTP Status 204
+    ********************************************************************************/
+    @RequestMapping(value = "/words/delete/{originalWord}.json", method = RequestMethod.DELETE)
+    public ResponseEntity deleteWordAndAnagrams (@PathVariable String originalWord) {
+
+        ArrayList<String> anagrams = getAllAnagrams(new AnagramWord(originalWord), LIMIT_NOT_USED);
+
+        // If originalWord exists in the data store delete it.
+        if (anagramWordList.contains(originalWord)) {
+            removeWordFromDataStore(originalWord);
+        }
+
+        // If there are any anagrams, delete them.
+        if (anagrams.size() > 0) {
+            for (String word : anagrams) {
+                removeWordFromDataStore(word);
+            }
+        }
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    /*******************************************************************************
+     * Endpoint that calculates the stats of the data store. Calculates min word size,
+     * max word size, median word size, and total word count of data store.
+     * Output: Returns JSON Object string containing all stats of the data store.
+     ********************************************************************************/
     @RequestMapping(value = "/stats/stats.json")
     public String getDataStoreStats() {
 
@@ -145,12 +196,13 @@ public class WordController {
         return statsJsonString;
     }
 
-    /*
-    * Description:
-    * Input:
-    * Output:
-    * Calls to: isAnagram
-    */
+    /*******************************************************************************
+     * Method that calculates a list of all anagrams of a original word.
+     * Input:
+     *      originalWord - AnagramWprd object of the original word.
+     *      limit - maximum amount of anagrams to return.
+     * Output: anagramList - String ArrayList of all anagrams.
+     ********************************************************************************/
     private ArrayList<String> getAllAnagrams (AnagramWord originalWord, Integer limit) {
 
         ArrayList<String> anagramList = new ArrayList<String>();
@@ -175,11 +227,13 @@ public class WordController {
         return anagramList;
     }
 
-    /*
-    * Description:
+    /*******************************************************************************
+     * Method that determines if two AnagramWords are anagrams of each other.
      * Input:
-     * Output:
-    */
+     *      wordOne - first AnagramWord used for comparison.
+     *      wordOne - second AnagramWord used for comparison.
+     * Output: Returns boolean value as to if both words are anagrams of each other.
+     ********************************************************************************/
     private boolean isAnagram(AnagramWord wordOne, AnagramWord wordTwo) {
 
         /*
@@ -202,7 +256,12 @@ public class WordController {
         }
     }
 
-    /**/
+    /*******************************************************************************
+     * Method that formats an ArrayList of Strings into a JSON Array String.
+     * Input:
+     *      list - ArrayList of Strings to convert
+     * Output: jsonMapString - JSON Array String
+     ********************************************************************************/
     private String formatJsonArray (ArrayList<String> list) {
 
         Gson gsonBuilder = new GsonBuilder().setLenient().setPrettyPrinting().create();
@@ -217,9 +276,12 @@ public class WordController {
         return jsonMapString;
     }
 
-    /*
-    *
-    */
+    /*******************************************************************************
+     * Method that a JSON Array String into an Array List of Strings.
+     * Input:
+     *      jsonString - JSON Array String to convert.
+     * Output: newArrayList - ArrayList of Strings
+     ********************************************************************************/
     private ArrayList<String> jsonToArrayList (String jsonString) {
 
         JsonElement jElement = new JsonParser().parse(jsonString);
@@ -232,9 +294,12 @@ public class WordController {
         return newArrayList;
     }
 
-    /*
-    *
-    */
+    /*******************************************************************************
+     * Method determines if a String word is located in the data store currently.
+     * Input:
+     *      wordString - String word to search data store for.
+     * Output: Returns boolean value of if the word is currently in the data store.
+     ********************************************************************************/
     private boolean wordIsInDataStore (String wordString ) {
 
         for (AnagramWord word : anagramWordList) {
@@ -244,5 +309,21 @@ public class WordController {
         }
 
         return false;
+    }
+
+    /*******************************************************************************
+     * Method that removes a stored word from the data store.
+     * Input:
+     *      wordToDelete - String value of the Anagram word to delete from the data
+     *      store.
+     ********************************************************************************/
+    private void removeWordFromDataStore (String wordToDelete) {
+
+        for (int i = 0; i < anagramWordList.size(); i++){
+            if (anagramWordList.get(i).getWord().equals(wordToDelete)) {
+                anagramWordList.remove(i);
+                break;
+            }
+        }
     }
 }
