@@ -30,13 +30,12 @@ public class Dictionary {
                 this.dictionaryList.add(scanner.next());
             }
         } catch (Exception ex) {
-            System.out.println("ERROR: " + ex.getMessage());
+            System.out.println("Error in loading dictionary: " + ex.getMessage());
         }
     }
 
     public void sort() {
 
-        // Sorting array by letter count and alphabetical (Ascending)
         Collections.sort(this.dictionaryList);
     }
 }

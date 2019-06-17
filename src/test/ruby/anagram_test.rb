@@ -130,8 +130,6 @@ class TestCases < Test::Unit::TestCase
     assert_not_nil(res.body)
 
     body = JSON.parse(res.body)
-
-    #assert_not_nil(body['anagrams'])
     assert_not_nil(body['wordCount'])
 
     expected_word_count = 6
@@ -143,6 +141,39 @@ class TestCases < Test::Unit::TestCase
     assert_equal(expected_median, body['median'])
     assert_equal(expected_min, body['min'])
     assert_equal(expected_max, body['max'])
+
+  end
+
+  def test_delete_word_and_all_anagrams
+    res = @client.post('/words.json', nil, {"words" => ["ready", "deary", "yeard"] })
+    assert_equal('201', res.code, "Unexpected response code")
+
+    res = @client.delete('/words/delete/read.json')
+
+    assert_equal('204', res.code, "Unexpected response code")
+
+    #should fetch an empty body
+    res = @client.get('/anagrams/read.json')
+
+    assert_equal('200', res.code, "Unexpected response code")
+
+    body = JSON.parse(res.body)
+
+    assert_equal(0, body['anagrams'].size)
+
+    #fetch anagrams for new word
+    res = @client.get('/anagrams/ready.json')
+
+    assert_equal('200', res.code, "Unexpected response code")
+    assert_not_nil(res.body)
+
+    body = JSON.parse(res.body)
+
+    assert_not_nil(body['anagrams'])
+
+    expected_anagrams = %w(deary yeard)
+    assert_equal(expected_anagrams, body['anagrams'].sort)
+
 
   end
 end
