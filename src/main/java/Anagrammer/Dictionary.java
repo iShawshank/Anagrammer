@@ -34,6 +34,7 @@ public class Dictionary {
         }
     }
 
+    // Sort the dictionary to allow binary searches of the ArrayList
     public void sort() {
 
         Collections.sort(this.dictionaryList);

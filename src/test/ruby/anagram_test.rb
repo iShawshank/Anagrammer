@@ -103,6 +103,22 @@ class TestCases < Test::Unit::TestCase
     assert_equal(0, body['anagrams'].size)
   end
 
+  def test_deleting_single_word_that_does_not_exist
+    # delete the word
+    res = @client.delete('/words/kevin.json')
+
+    assert_equal('204', res.code, "Unexpected response code")
+
+    # expect it not to show up in results
+    res = @client.get('/anagrams/kevin.json')
+
+    assert_equal('200', res.code, "Unexpected response code")
+
+    body = JSON.parse(res.body)
+
+    assert_equal(0, body['anagrams'].size)
+  end
+
   def test_deleting_single_word
     # delete the word
     res = @client.delete('/words/dear.json')

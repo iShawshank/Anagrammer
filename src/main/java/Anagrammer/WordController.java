@@ -14,6 +14,7 @@ import static Anagrammer.AnagramConstants.LIMIT_NOT_USED;
 
 @RestController
 public class WordController {
+
     private ArrayList<AnagramWord> anagramWordList = new ArrayList<AnagramWord>();
     private Dictionary dictionary = new Dictionary();
     private AnagramUtils utils = new AnagramUtils();
@@ -58,7 +59,7 @@ public class WordController {
             if (!utils.wordIsInDataStore(word, anagramWordList)){
 
                 // If the word is in the english language dictionary add it to the data store
-                if (dictionary.getDictionaryList().contains(word)){
+                if (Collections.binarySearch(dictionary.getDictionaryList(), word) >= 0) {
                     anagramWordList.add(new AnagramWord(word));
                     addWordCount++;
                 } else {
@@ -160,7 +161,7 @@ public class WordController {
      * max word size, median word size, and total word count of data store.
      * @return JSON Object string containing all stats of the data store.
      ********************************************************************************/
-    @RequestMapping(value = "/stats/stats.json")
+    @RequestMapping(value = "/stats/stats.json", method = RequestMethod.GET)
     public String getDataStoreStats() {
 
         String statsJsonString = "";
