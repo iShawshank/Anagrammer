@@ -95,13 +95,5 @@ public class WordControllerTest {
         assertTrue(expectedResponse.equals(actualResponse));
     }
 
-    @Test
-    public void deleteSingleWord() {
 
-    }
-
-    @Test
-    public void deleteAllWords() {
-
-    }
 }
