@@ -28,7 +28,18 @@ class TestCases < Test::Unit::TestCase
     assert_equal('201', res.code, "Unexpected response code")
   end
 
+  def test_adding_words_but_not_sending_any
+    # Clear out the word array.
+    @client.delete('/words.json')
+
+    #post but don't include any words
+    res = @client.post('/words.json')
+
+    assert_equal('304', res.code, "Unexpected response code")
+  end
+
   def test_adding_duplicate_words
+
     res = @client.post('/words.json', nil, {"words" => ["read", "dear", "dare"] })
 
     assert_equal('304', res.code, "Unexpected response code")
@@ -189,7 +200,49 @@ class TestCases < Test::Unit::TestCase
 
     expected_anagrams = %w(deary yeard)
     assert_equal(expected_anagrams, body['anagrams'].sort)
+  end
+
+  def test_delete_word_and_all_anagrams_where_word_and_anagrams_dont_exist
+    # Prove that word and anagrams don't exist.
+    res = @client.get('/anagrams/nshd.json')
+    body = JSON.parse(res.body)
+    assert_equal(0, body['anagrams'].size)
+
+    # Attempt to delete the word and it's anagrams
+    res = @client.delete('/words/delete/nshd.json')
+    assert_equal('204', res.code, "Unexpected response code")
+
+    # Fetch "Empty" body
+    res = @client.get('/anagrams/nshd.json')
+    assert_equal('200', res.code, "Unexpected response code")
+
+    # Test that's it's a empty
+    body = JSON.parse(res.body)
+    assert_equal(0, body['anagrams'].size)
+  end
+
+  def test_delete_word_and_all_anagrams_where_word_doesnt_exist_but_anagrams_do
+    res = @client.post('/words.json', nil, {"words" => ["and"] })
+    assert_equal('201', res.code, "Unexpected response code")
 
 
+    # Prove that anagrams do exist even though word doesn't
+    res = @client.get('/anagrams/dan.json')
+    body = JSON.parse(res.body)
+    assert_not_nil(body['anagrams'])
+    expected_anagrams = %w(and)
+    assert_equal(expected_anagrams, body['anagrams'].sort)
+
+    # Attempt to delete the word and it's anagrams
+    res = @client.delete('/words/delete/dan.json')
+    assert_equal('204', res.code, "Unexpected response code")
+
+    # Fetch "Empty" body
+    res = @client.get('/anagrams/nshd.json')
+    assert_equal('200', res.code, "Unexpected response code")
+
+    # Test that's it's a empty
+    body = JSON.parse(res.body)
+    assert_equal(0, body['anagrams'].size)
   end
 end

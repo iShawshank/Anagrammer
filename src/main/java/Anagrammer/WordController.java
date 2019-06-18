@@ -20,9 +20,7 @@ public class WordController {
     private Dictionary dictionary = new Dictionary();
     private AnagramUtils utils = new AnagramUtils();
     final static Logger logger = Logger.getLogger(WordController.class);
-
-
-
+    
 
     /*******************************************************************************
      * Endpoint that accepts a JSON array string and attempts to add all containing
@@ -38,6 +36,10 @@ public class WordController {
 
         ArrayList<String> newWords = new ArrayList<String>();
         int addWordCount = 0;
+
+        if (jsonString == null || jsonString.equals("null") || jsonString.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_MODIFIED);
+        }
 
         /*
         * When making a normal curl request through console the jsonString is encoded and has
