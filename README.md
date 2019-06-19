@@ -131,7 +131,7 @@ To run the tests in IntelliJ.
 ## Design Overview:
 TOOLS: 
 
-I chose to use Spring and Maven for this project as Maven makes it easy to manage dependencies and
+I chose to use Spring and Maven for this project as Maven makes it easy to build / manage the application and
 Spring makes it easy to implement a REST API. 
 
 ENGLISH WORD DICTIONARY:

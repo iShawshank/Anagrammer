@@ -4168,3 +4168,183 @@
   ]
 }
 2019-06-17 21:48:09 DEBUG WordController:138 - Deleted all words from the data store.
+2019-06-18 17:37:13 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:38:48 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:39:31 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:40:01 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:42:44 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:44:59 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:45:39 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:49:41 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:49:51 DEBUG Dictionary:15 - Loading Dictionary...
+2019-06-18 17:49:51 DEBUG Dictionary:17 - Sorting Dictionary...
+2019-06-18 17:49:52 DEBUG Dictionary:19 - Dictionary loaded and ready.
+2019-06-18 17:49:58 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:51:55 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 17:54:46 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:00:31 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:02:50 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:07:32 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:07:58 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:08:35 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:08:51 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:09:38 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:10:36 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:11:00 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:12:16 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:17:10 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:17:23 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:17:32 DEBUG Dictionary:15 - Loading Dictionary...
+2019-06-18 18:17:33 DEBUG Dictionary:17 - Sorting Dictionary...
+2019-06-18 18:17:33 DEBUG Dictionary:19 - Dictionary loaded and ready.
+2019-06-18 18:17:53 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:18:28 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:18:35 DEBUG Dictionary:15 - Loading Dictionary...
+2019-06-18 18:18:35 DEBUG Dictionary:17 - Sorting Dictionary...
+2019-06-18 18:18:35 DEBUG Dictionary:19 - Dictionary loaded and ready.
+2019-06-18 18:18:44 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:19:45 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
+2019-06-18 18:19:50 DEBUG Dictionary:15 - Loading Dictionary...
+2019-06-18 18:19:50 DEBUG Dictionary:17 - Sorting Dictionary...
+2019-06-18 18:19:50 DEBUG Dictionary:19 - Dictionary loaded and ready.
+2019-06-18 18:21:04 DEBUG AnagramUtils:90 - JSON array string: {
+  "anagrams": [
+    "dare",
+    "dear"
+  ]
+}
