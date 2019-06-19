@@ -105,9 +105,13 @@ public class WordController {
             limit = LIMIT_NOT_USED;
         }
 
-        String anagramList = utils.formatJsonArray(utils.getAllAnagrams(new AnagramWord(word), limit, anagramWordList));
+        // get a list of all anagrams of the original word
+        ArrayList<String> anagramList = utils.getAllAnagrams(new AnagramWord(word), limit, anagramWordList);
 
-        return anagramList;
+        // Convert the ArrayList into a JSON Array String
+        String anagramListString = utils.formatJsonArray(anagramList);
+
+        return anagramListString;
     }
 
     /*******************************************************************************
@@ -120,6 +124,7 @@ public class WordController {
 
         logger.debug(String.format("Removing '%s' from data store.", word));
 
+        // Remove a single word from the data store
         anagramWordList = utils.removeWordFromDataStore(word, anagramWordList);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -155,7 +160,7 @@ public class WordController {
             anagramWordList = utils.removeWordFromDataStore(originalWord, anagramWordList);
         }
 
-        // If there are any anagrams, delete them.
+        // If there are any anagrams of the original word, delete them.
         if (anagrams.size() > 0) {
             for (String word : anagrams) {
                 anagramWordList =  utils.removeWordFromDataStore(word, anagramWordList);

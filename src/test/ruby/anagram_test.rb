@@ -29,7 +29,7 @@ class TestCases < Test::Unit::TestCase
   end
 
   def test_adding_words_but_not_sending_any
-    # Clear out the word array.
+    # Clear out the word array
     @client.delete('/words.json')
 
     #post but don't include any words
@@ -39,9 +39,10 @@ class TestCases < Test::Unit::TestCase
   end
 
   def test_adding_duplicate_words
-
+    # Attempt to load the data store with words that already exist
     res = @client.post('/words.json', nil, {"words" => ["read", "dear", "dare"] })
 
+    # Expect a NOT_MODIFIED response
     assert_equal('304', res.code, "Unexpected response code")
   end
 
@@ -49,13 +50,16 @@ class TestCases < Test::Unit::TestCase
     # fetch anagrams
     res = @client.get('/anagrams/read.json')
 
+    # expect a not empty response and okay status
     assert_equal('200', res.code, "Unexpected response code")
     assert_not_nil(res.body)
 
     body = JSON.parse(res.body)
 
+    # expect not empty JSON array
     assert_not_nil(body['anagrams'])
 
+    # expect that the anagrams are correct
     expected_anagrams = %w(dare dear)
     assert_equal(expected_anagrams, body['anagrams'].sort)
   end
@@ -68,6 +72,7 @@ class TestCases < Test::Unit::TestCase
 
     body = JSON.parse(res.body)
 
+    # expect an JSON array with 1 anagram in it
     assert_equal(1, body['anagrams'].size)
   end
 
@@ -79,6 +84,7 @@ class TestCases < Test::Unit::TestCase
 
     body = JSON.parse(res.body)
 
+    # expect an empty JSON array
     assert_equal(0, body['anagrams'].size)
   end
 
@@ -94,6 +100,7 @@ class TestCases < Test::Unit::TestCase
 
     body = JSON.parse(res.body)
 
+    # expect an empty JSON array
     assert_equal(0, body['anagrams'].size)
   end
 
@@ -111,6 +118,7 @@ class TestCases < Test::Unit::TestCase
 
     body = JSON.parse(res.body)
 
+    # expect an empty JSON array
     assert_equal(0, body['anagrams'].size)
   end
 
@@ -127,6 +135,7 @@ class TestCases < Test::Unit::TestCase
 
     body = JSON.parse(res.body)
 
+    # expect an empty JSON array
     assert_equal(0, body['anagrams'].size)
   end
 
@@ -143,6 +152,7 @@ class TestCases < Test::Unit::TestCase
 
     body = JSON.parse(res.body)
 
+    # expect dare to be the only anagram of read
     assert_equal(['dare'], body['anagrams'])
   end
 
@@ -164,6 +174,7 @@ class TestCases < Test::Unit::TestCase
     expected_min = 4
     expected_max = 8
 
+    # expect the data store stats to match expected values
     assert_equal(expected_word_count, body['wordCount'])
     assert_equal(expected_median, body['median'])
     assert_equal(expected_min, body['min'])
@@ -198,6 +209,7 @@ class TestCases < Test::Unit::TestCase
 
     assert_not_nil(body['anagrams'])
 
+    # expect anagrams of ready to still be in the data store
     expected_anagrams = %w(deary yeard)
     assert_equal(expected_anagrams, body['anagrams'].sort)
   end

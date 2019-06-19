@@ -37,6 +37,7 @@ public class AnagramWord implements Comparable<AnagramWord>{
                 letterCount.equals(that.letterCount);
     }
 
+    // Used for comparing one anagram word with another
     @Override
     public int compareTo(AnagramWord o) {
         return this.getWord().compareTo(o.getWord());

@@ -11,6 +11,7 @@ public class Dictionary {
     private final ArrayList<String> dictionaryList = new ArrayList<String>();
     final static Logger logger = Logger.getLogger(Dictionary.class);
 
+    // Load and Sort the dictionary
     public Dictionary() {
         logger.debug("Loading Dictionary...");
         load();
